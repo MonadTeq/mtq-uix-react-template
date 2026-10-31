@@ -182,19 +182,6 @@ and never re-implements a primitive that already exists.
 For a designer-facing overview, see `mtq-uix-designer-summary.md` in the project root
 (one directory above this repository).
 
----
-
-## Code quality
-
-The CI workflow (`.github/workflows/npm.yml`) runs on Node 20 and 22:
-
-1. `npm ci`
-2. `npm run lint`
-3. `npx tsc --noEmit`
-4. `npm run build`
-
----
-
 ## License
 
 Released under the [MIT License](LICENSE). Based on the CoreUI Free React Admin
