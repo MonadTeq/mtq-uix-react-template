@@ -13,7 +13,7 @@ const DocsComponents = ({ href }: DocsComponentsProps) => (
           src={ComponentsImg}
           width="160px"
           height="160px"
-          alt="CoreUI PRO hexagon"
+          alt="CoreUI components hexagon"
         />
       </div>
       <div className="col-md col-12 px-lg-4">
@@ -34,15 +34,6 @@ const DocsComponents = ({ href }: DocsComponentsProps) => (
           rel="noopener noreferrer"
         >
           Explore Documentation
-        </a>
-        <div className="text-center my-1">or</div>
-        <a
-          className="btn btn-danger text-nowrap text-white"
-          href="https://coreui.io/pricing/?framework=react&src=free-react-admin-template-docs-banner"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Get CoreUI PRO →
         </a>
       </div>
     </div>
