@@ -1,0 +1,69 @@
+# MTQ UiX - AI Assistant Rules
+
+You are working with the **MTQ UiX** admin panel: a strict-TypeScript, Feature-Sliced Design (FSD)
+React application built on the CoreUI component library. It uses Vite for build/dev, React Router 7
+for hash-based routing, React Context + hooks for state, and Storybook for component documentation.
+
+## Tech stack
+
+- React 19 + TypeScript 6 (strict), ES2022
+- Vite 8, React Router 7, Sass/SCSS
+- CoreUI 5 (consumed as `@mtq/design-system`)
+- Storybook 10, ESLint 9 + Prettier + `eslint-plugin-boundaries`
+
+## Architecture (FSD)
+
+Imports flow only downward:
+
+```
+app → pages → widgets → features → entities → shared
+```
+
+| Layer | Purpose |
+| --- | --- |
+| `src/app` | entry, providers, router, global styles |
+| `src/pages` | one component per route; composition only, no business logic |
+| `src/widgets` | self-contained page blocks |
+| `src/features` | user-facing state/actions (`model/`, `ui/`) |
+| `src/entities` | domain data, types, selectors (no side effects) |
+| `src/shared` | api client, config, utils, base UI helpers |
+
+Rules:
+
+- Never import upward or across slices on the same layer.
+- Every slice exposes a single public `index.ts`; no deep imports.
+- The design system lives in `packages/design-system` (`@mtq/design-system`); app code never
+  imports `@coreui/*` directly and never re-implements a primitive.
+
+## TypeScript conventions
+
+- `strict: true`. No `any` (use `unknown` + narrowing). No enums (`as const` objects).
+- `import type { … }` for type-only imports (`verbatimModuleSyntax` is on).
+- Prefer `type` for unions, `interface` for extendable shapes.
+- Explicit return types on exported functions/components.
+
+## Component & state conventions
+
+- One component per file, named after the file; co-locate `.stories.tsx` for UI.
+- Functional components only.
+- Local UI state: `useState`/`useReducer`. Global UI state: context in `features/*` (e.g.
+  `features/sidebar`). No Redux. Server state belongs in `shared/api` (TanStack Query later).
+
+## Styling
+
+- All visual values are design tokens (`var(--cui-*)`, `var(--color-brand-*)`). No hardcoded
+  colors/fonts/radii/spacing.
+- Use `@mtq/design-system` for all primitives/icons/charts; use CoreUI utility classes for layout.
+- Conditional classes via `cn()` from `@/shared`; token lookup via `cssVar()` from `@/shared`.
+
+## Commands
+
+```bash
+npm start              # dev server (http://localhost:3000)
+npm run build          # production build → build/
+npm run lint           # ESLint (TS, React, prettier, FSD boundaries)
+npx tsc --noEmit       # strict type check
+npm run storybook      # Storybook (http://localhost:6006)
+```
+
+Before finishing any change, ensure `npm run lint` and `npx tsc --noEmit` pass.
